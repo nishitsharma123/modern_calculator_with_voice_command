@@ -1,71 +1,109 @@
-Calculator Pro
-Overview
-Calculator Pro is a modern, voice-enabled scientific calculator web application built with a full-stack architecture. The application provides advanced mathematical computing capabilities including trigonometry, logarithms, and expression history, with real-time voice command support and persistent data storage.
+# 🚀 Calculator Pro
 
-User Preferences
-Preferred communication style: Simple, everyday language.
+> A modern, **voice-enabled scientific calculator** web application with full-stack architecture.  
+Supports **advanced math functions**, **real-time voice commands**, **calculation history**, and **persistent storage**.
 
-System Architecture
-Frontend Architecture
-The frontend is built using React 18 with TypeScript and follows a component-based architecture:
+![React](https://img.shields.io/badge/Frontend-React%2018-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/Code-TypeScript-3178C6?logo=typescript)
+![Tailwind](https://img.shields.io/badge/Style-Tailwind%20CSS-38B2AC?logo=tailwindcss)
+![Express](https://img.shields.io/badge/Backend-Express.js-black?logo=express)
+![Postgres](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)
 
-Framework: React with Vite as the build tool for fast development and optimized production builds
-Styling: Tailwind CSS with a comprehensive design system using CSS variables for theming
-UI Components: Radix UI primitives wrapped in custom shadcn/ui components for consistent design
-State Management: TanStack Query (React Query) for server state management with local React state for UI interactions
-Routing: Wouter for lightweight client-side routing
-Theme System: Custom theme provider supporting light/dark modes with persistent user preferences
-The calculator interface includes:
+---
 
-Interactive button grid for number input and operations
-Real-time expression evaluation with mathjs
-Voice recognition integration using Web Speech API
-History panel for calculation and memory management
-Responsive design optimized for both desktop and mobile
-Backend Architecture
-The backend follows a REST API pattern using Express.js:
+## ✨ Features
+- 🎙️ **Voice-enabled commands** (powered by Web Speech API)  
+- 🔢 **Scientific calculator functions** (trigonometry, logarithms, etc.)  
+- 📝 **History panel** with persistent storage  
+- 🌓 **Light & Dark themes** with user preference memory  
+- 📱 **Responsive UI** (desktop + mobile optimized)  
+- 💾 **Hybrid storage system** (PostgreSQL + in-memory for dev)  
 
-Framework: Express.js with TypeScript for type-safe server development
-Architecture Pattern: Layered architecture with separation of concerns:
-Routes layer for HTTP endpoint handling
-Storage abstraction layer for data persistence
-Shared schema definitions for type consistency
-API Design: RESTful endpoints for calculations and memory operations with proper HTTP status codes
-Error Handling: Centralized error handling middleware with structured error responses
-Development Tools: Hot reloading and development middleware integration
-Data Storage Solutions
-The application uses a hybrid storage approach:
+---
 
-Production Database: PostgreSQL with Drizzle ORM for type-safe database operations
-Schema Management: Drizzle migrations for version-controlled database schema changes
-Development Fallback: In-memory storage implementation for development environments
-Storage Interface: Abstract storage interface allowing seamless switching between storage backends
-Database schema includes:
+## 🏗️ System Architecture
 
-Calculations table for expression history with timestamps
-Memory values table for calculator memory operations
-UUID primary keys with automatic timestamp generation
-Authentication and Authorization
-Currently implements session-based infrastructure:
+<details>
+<summary><strong>🌐 Frontend (React + TypeScript)</strong></summary>
 
-Session storage configuration with connect-pg-simple for PostgreSQL session persistence
-Express session middleware integration prepared for future authentication features
-No authentication currently required, but infrastructure supports future implementation
-External Dependencies
-Third-Party Services
-Neon Database: Serverless PostgreSQL database hosting (@neondatabase/serverless)
-Replit Platform Integration: Development environment plugins for cartographer and dev banner
-Key Libraries and Frameworks
-React Ecosystem: React DOM, React Query for data fetching and caching
-UI Framework: Comprehensive Radix UI component library for accessibility
-Mathematical Operations: mathjs for expression evaluation and mathematical functions
-Voice Recognition: Native Web Speech API integration
-Form Handling: React Hook Form with Zod validation for type-safe form management
-Date Utilities: date-fns for timestamp formatting and manipulation
-Styling Tools: class-variance-authority and clsx for conditional styling
-Build Tools: Vite with esbuild for fast bundling and development
-Development Dependencies
-TypeScript: Full type safety across frontend and backend
-ESLint/Prettier: Code quality and formatting (implied by typical setup)
-PostCSS: CSS processing with Tailwind CSS integration
-Drizzle Kit: Database schema management and migration tools
+- **Framework**: React 18 + Vite (fast builds + HMR)  
+- **Styling**: Tailwind CSS with CSS variables for theming  
+- **UI Components**: Radix UI + shadcn/ui wrappers  
+- **State Management**: TanStack Query + React local state  
+- **Routing**: Wouter (lightweight)  
+- **Theme System**: Persistent light/dark modes  
+
+**UI Highlights**:
+- Interactive **button grid** for input/operations  
+- Real-time evaluation with **mathjs**  
+- Integrated **voice recognition**  
+- **History panel** for past calculations & memory management  
+</details>
+
+<details>
+<summary><strong>🖥️ Backend (Express + TypeScript)</strong></summary>
+
+- **Framework**: Express.js (TypeScript-based)  
+- **Architecture**: Layered (Routes, Storage, Schema)  
+- **API Design**: RESTful endpoints for calculations & memory  
+- **Error Handling**: Centralized middleware with structured responses  
+- **Dev Tools**: Hot reloading & middleware integration  
+</details>
+
+<details>
+<summary><strong>💽 Data Storage</strong></summary>
+
+- **Database**: PostgreSQL + Drizzle ORM  
+- **Migrations**: Drizzle Kit for schema versioning  
+- **Fallback**: In-memory storage for dev  
+- **Schema**:
+  - `calculations` → expression history w/ timestamps  
+  - `memory_values` → memory storage  
+  - UUID primary keys + auto timestamps  
+</details>
+
+<details>
+<summary><strong>🔐 Authentication & Sessions</strong></summary>
+
+- **Session-based infrastructure** (using `connect-pg-simple`)  
+- **Session persistence** via PostgreSQL  
+- 🔮 **Auth-ready** (future implementation planned)  
+</details>
+
+---
+
+## 📦 Dependencies
+
+### 🔑 Key Libraries
+- **Frontend**: React, Radix UI, shadcn/ui, TanStack Query, Wouter  
+- **Math Engine**: mathjs  
+- **Voice Recognition**: Web Speech API  
+- **Forms & Validation**: React Hook Form + Zod  
+- **Dates**: date-fns  
+- **Styling Helpers**: clsx, class-variance-authority  
+
+### 🛠️ Dev Tools
+- TypeScript (end-to-end type safety)  
+- ESLint + Prettier  
+- PostCSS (with Tailwind integration)  
+- Drizzle Kit (DB migrations)  
+
+### ☁️ Third-Party Services
+- **Neon Database** → Serverless PostgreSQL hosting  
+- **Replit Plugins** → Cartographer & Dev Banner  
+</details>
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/calculator-pro.git
+
+# Install dependencies
+cd calculator-pro
+npm install
+
+# Run frontend & backend
+npm run dev
