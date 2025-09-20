@@ -133,18 +133,29 @@ export function useCalculator() {
       let mathExpression = expression
         .replace(/×/g, "*")
         .replace(/÷/g, "/")
-        .replace(/π/g, "pi")
-        .replace(/(\d)\(/g, "$1*(") // Add multiplication before parentheses
-        .replace(/\)(\d)/g, ")*$1"); // Add multiplication after parentheses
+        .replace(/π/g, "pi");
 
       console.log("Original expression:", expression);
       console.log("After basic cleanup:", mathExpression);
       
-      // Convert trigonometric functions to use degrees with standard math conversion
-      // Replace each trig function with its degree version using pi/180 conversion
-      mathExpression = mathExpression.replace(/sin\(([^)]+)\)/g, "sin(($1) * pi / 180)");
-      mathExpression = mathExpression.replace(/cos\(([^)]+)\)/g, "cos(($1) * pi / 180)");
-      mathExpression = mathExpression.replace(/tan\(([^)]+)\)/g, "tan(($1) * pi / 180)");
+      // Convert trigonometric functions to use degrees with robust conversion
+      // Use word boundaries to avoid matching function names that contain these patterns
+      mathExpression = mathExpression.replace(/\bsin\(/g, "sin(");
+      mathExpression = mathExpression.replace(/\bcos\(/g, "cos(");
+      mathExpression = mathExpression.replace(/\btan\(/g, "tan(");
+      
+      // Simple degree conversion for basic expressions (single arguments)
+      mathExpression = mathExpression.replace(/\bsin\(([^()]+)\)/g, "sin(($1) * pi / 180)");
+      mathExpression = mathExpression.replace(/\bcos\(([^()]+)\)/g, "cos(($1) * pi / 180)");
+      mathExpression = mathExpression.replace(/\btan\(([^()]+)\)/g, "tan(($1) * pi / 180)");
+      
+      // Add implicit multiplication more carefully
+      // Only add multiplication between a digit and an opening parenthesis when not part of a function name
+      mathExpression = mathExpression.replace(/(?<![A-Za-z0-9_])(\d)\(/g, "$1*(");
+      // Add multiplication after closing parenthesis followed by digit
+      mathExpression = mathExpression.replace(/\)(\d)/g, ")*$1");
+      // Add multiplication after closing parenthesis followed by opening parenthesis
+      mathExpression = mathExpression.replace(/\)\(/g, ")*(");
       
       console.log("Final expression:", mathExpression);
 
@@ -196,11 +207,12 @@ export function useCalculator() {
 
   const memoryRecall = useCallback(() => {
     if (currentMemory) {
-      setExpression(prev => prev + currentMemory);
+      setExpression(currentMemory);
     } else if (memoryValues.length > 0) {
       const lastMemory = memoryValues[0];
-      setExpression(prev => prev + lastMemory.value);
+      setExpression(lastMemory.value);
     }
+    setError(undefined);
   }, [currentMemory, memoryValues]);
 
   const memoryClear = useCallback(() => {
@@ -261,7 +273,8 @@ export function useCalculator() {
   }, []);
 
   const recallMemoryValue = useCallback((memoryValue: MemoryValue) => {
-    setExpression(prev => prev + memoryValue.value);
+    setExpression(memoryValue.value);
+    setError(undefined);
   }, []);
 
   const deleteMemoryValue = useCallback((id: string) => {
