@@ -137,6 +137,17 @@ export function useCalculator() {
         .replace(/(\d)\(/g, "$1*(") // Add multiplication before parentheses
         .replace(/\)(\d)/g, ")*$1"); // Add multiplication after parentheses
 
+      console.log("Original expression:", expression);
+      console.log("After basic cleanup:", mathExpression);
+      
+      // Convert trigonometric functions to use degrees with standard math conversion
+      // Replace each trig function with its degree version using pi/180 conversion
+      mathExpression = mathExpression.replace(/sin\(([^)]+)\)/g, "sin(($1) * pi / 180)");
+      mathExpression = mathExpression.replace(/cos\(([^)]+)\)/g, "cos(($1) * pi / 180)");
+      mathExpression = mathExpression.replace(/tan\(([^)]+)\)/g, "tan(($1) * pi / 180)");
+      
+      console.log("Final expression:", mathExpression);
+
       const calculatedResult = evaluate(mathExpression);
       const formattedResult = format(calculatedResult, { precision: 14 });
       
@@ -149,6 +160,8 @@ export function useCalculator() {
       });
       
     } catch (err) {
+      console.error("Calculation error:", err);
+      console.error("Expression that failed:", expression);
       const errorMessage = "Invalid expression";
       setError(errorMessage);
       toast({
